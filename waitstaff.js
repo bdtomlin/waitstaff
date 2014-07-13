@@ -1,29 +1,30 @@
 angular.module('waitstaff', [])
   .controller('MainCtrl', ['$scope', function($scope){
-    $scope.data = {
-      customerSubtotal: 0,
-      customerTip: 0,
-      mealCount: 0,
-      avgTip: 0,
-      myTipTotal: 0,
-      tipHistory: []
+    var initializeData = function(){
+      $scope.data = {
+        customerSubtotal: 0,
+        customerTip: 0,
+        customerTotal: 0,
+        tipHistory: []
+      };
+    };
+    initializeData();
+
+    var customerTotal = function(customerSubtotal, customerTip){
+      return customerSubtotal + customerTip;
     };
 
-    var customerTotal = function(){
-      return $scope.data.customerSubtotal + $scope.data.customerTip;
-    };
-
-    var avgTip = function(){
-      return $scope.data.myTipTotal / $scope.data.tipHistory.length;
-    };
-
-    var customerSubtotal = function(){
-      var subTot = parseFloat($scope.data.baseMealPrice);
-      subTot = subTot + subTot * $scope.data.taxRate / 100; 
+    var customerSubtotal = function(baseMealPrice, taxRate){
+      var subTot = parseFloat(baseMealPrice);
+      subTot = subTot + subTot * taxRate / 100; 
       return subTot;
     };
 
-    var myTipTotal = function(){
+    var calculateTip = function(customerSubtotal, tipPercent){
+      return tipPercent / 100 * customerSubtotal;
+    }
+
+    $scope.myTipTotal = function(){
       var total = 0;
       for(var i=0, l=$scope.data.tipHistory.length; i<l; i++){
         total += $scope.data.tipHistory[i];
@@ -31,17 +32,37 @@ angular.module('waitstaff', [])
       return total;
     };
 
-
-    $scope.wsFormSubmit = function(){
-      if($scope.inputForm.$valid){
-        $scope.data.customerSubtotal = customerSubtotal();
-        $scope.data.customerTotal = customerTotal();
-        $scope.data.customerTip = $scope.data.tipPercent / 100 * $scope.data.customerSubtotal;
-        $scope.data.customerTotal = customerTotal();
-        $scope.data.tipHistory.push($scope.data.customerTip)
-        $scope.data.myTipTotal = myTipTotal();
-        $scope.data.avgTip = avgTip();
+    $scope.avgTip = function(){
+      if($scope.data.tipHistory.length){
+        return $scope.myTipTotal() / $scope.data.tipHistory.length;
+      }else{
+        return 0;
       }
     };
 
+    $scope.wsFormSubmit = function(){
+      $scope.submitted = true;
+      if($scope.inputForm.$valid){
+        $scope.data.customerSubtotal = customerSubtotal($scope.data.baseMealPrice, $scope.data.taxRate);
+        $scope.data.customerTip = calculateTip($scope.data.customerSubtotal, $scope.data.tipPercent);
+        $scope.data.customerTotal = customerTotal($scope.data.customerSubtotal, $scope.data.customerTip);
+        $scope.data.tipHistory.push($scope.data.customerTip)
+      }
+    };
+
+    var clearForm = function(){
+      $scope.submitted = false;
+      $scope.data.baseMealPrice = null;
+      $scope.data.taxRate = null;
+      $scope.data.tipPercent = null;
+    };
+
+    $scope.cancel = function(){
+      clearForm();
+    };
+
+    $scope.reset = function(){
+      clearForm();
+      initializeData();
+    };
   }]);

@@ -14,20 +14,26 @@
       <h2>Enter the Meal Details</h2>
       <form name="inputForm" ng-submit="wsFormSubmit()" novalidate>
         <section>
-          <label for="">Base Meal Price: $ </label>
-          <input type="number" ng-model="data.baseMealPrice" smart-float required>
+          <label for="baseMealPrice">Base Meal Price: $ </label>
+          <input type="number" ng-model="data.baseMealPrice" name="baseMealPrice"
+            ng-class="{error: submitted && inputForm.baseMealPrice.$invalid}" smart-float required>
+          <div class="errorMessage" ng-show="submitted && inputForm.baseMealPrice.$invalid">Please enter a number</div>
         </section>
         <section>
-          <label for="">Tax Rate: % </label>
-          <input type="number" step="any" min="0" ng-model="data.taxRate" required>
+          <label for="taxRate">Tax Rate: % </label>
+          <input type="number" ng-model="data.taxRate" name="taxRate"
+            ng-class="{error: submitted && inputForm.taxRate.$invalid}" min="1" max="100" smart-float required>
+          <div class="errorMessage" ng-show="submitted && inputForm.taxRate.$invalid">Please enter a number between 1 and 100</div>
         </section>
         <section>
-          <label for="">Tip Percentage: % </label>
-          <input type="number" step="any" min="0" ng-model="data.tipPercent" required>
+          <label for="tipPercent">Tip Percentage: % </label>
+          <input type="number" ng-model="data.tipPercent" name="tipPercent"
+            ng-class="{error: submitted && inputForm.tipPercent.$invalid}" smart-float min="1" max="100" required>
+          <div class="errorMessage" ng-show="submitted && inputForm.tipPercent.$invalid">Please enter a number between 1 and 100</div>
         </section>
         <section class="buttons">
           <button type="submit">Submit</button>
-          <button>Cancel</button>
+          <button type="button" ng-click="cancel()">Cancel</button>
         </section>
       </form>
     </main>
@@ -54,7 +60,7 @@
         <table>
           <tr>
             <th>Tip Total</th>
-            <td>{{data.myTipTotal | currency}}</td>
+            <td>{{myTipTotal() | currency}}</td>
           </tr>
           <tr>
             <th>Meal Count</th>
@@ -62,11 +68,12 @@
           </tr>
           <tr>
             <th>Avg Tip Per Meal</th>
-            <td>{{data.avgTip | currency}}</td>
+            <td>{{avgTip() | currency}}</td>
           </tr>
         </table>
       </section>
     </aside>
+    <button class="reset" ng-click="reset()">Reset</button>
   </div>
 
   <script src="./angular.min.js" type="text/javascript"></script>

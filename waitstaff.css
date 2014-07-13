@@ -18,12 +18,13 @@ h1 {
 
 input {
   font-size: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   font-family: Helvetica, Arial, sans-serif
   border: 1px solid #999;
   box-shadow: inset 0 2px 2px rgba(0,0,0,.075);
   border-radius: 3px;
   padding: 3px;
+  width: 150px;
 }
 
 input.error {
@@ -34,6 +35,7 @@ input.error {
 .errorMessage {
   font-size: 11px;
   color: red;
+  margin: 0 0 0 40%;
 }
 
 .container {
@@ -49,6 +51,7 @@ main {
 }
 
 main form section {
+  position: relative;
   height: 70px;
 }
 
@@ -101,4 +104,9 @@ h2 {
   margin: 0 0 1.5em 0;
   line-height: 2em;
   text-align: left;
+}
+
+.reset{
+  clear: both;
+  float: right;
 }
