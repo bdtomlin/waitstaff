@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('waitstaff', [])
   .controller('MainCtrl', ['$scope', function($scope){
     var initializeData = function(){
