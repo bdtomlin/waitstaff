@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="waitstaff">
 <head>
   <meta charset="UTF-8">
   <title>Waitstaff Calculator</title>
   <link rel="stylesheet" href="./waitstaff.css">
 </head>
-<body ng-app="waitstaff">
+<body ng-controller="MainCtrl">
   <header class="clearfix">
     <h1>Waitstaff Calculator</h1>
   </header>
   <div class="container">
     <main>
       <h2>Enter the Meal Details</h2>
-      <form>
+      <form name="inputForm" ng-submit="wsFormSubmit()" novalidate>
         <section>
           <label for="">Base Meal Price: $ </label>
-          <input type="number">
+          <input type="number" ng-model="data.baseMealPrice" smart-float required>
         </section>
         <section>
           <label for="">Tax Rate: % </label>
-          <input type="number">
+          <input type="number" step="any" min="0" ng-model="data.taxRate" required>
         </section>
         <section>
           <label for="">Tip Percentage: % </label>
-          <input type="number">
+          <input type="number" step="any" min="0" ng-model="data.tipPercent" required>
         </section>
         <section class="buttons">
           <button type="submit">Submit</button>
@@ -37,15 +37,15 @@
         <table>
           <tr>
             <th>Subtotal</th>
-            <td>$0.00</td>
+            <td>{{data.customerSubtotal | currency}}</td>
           </tr>
           <tr>
             <th>Tip</th>
-            <td>$0.00</td>
+            <td>{{data.customerTip | currency}}</td>
           </tr>
           <tr class="total">
             <th>Total</th>
-            <td>$0.00</td>
+            <td>{{data.customerTotal | currency}}</td>
           </tr>
         </table>
       </section>
@@ -54,15 +54,15 @@
         <table>
           <tr>
             <th>Tip Total</th>
-            <td>$0.00</td>
+            <td>{{data.myTipTotal | currency}}</td>
           </tr>
           <tr>
             <th>Meal Count</th>
-            <td>0</td>
+            <td>{{data.tipHistory.length}}</td>
           </tr>
           <tr>
             <th>Avg Tip Per Meal</th>
-            <td>$0.00</td>
+            <td>{{data.avgTip | currency}}</td>
           </tr>
         </table>
       </section>

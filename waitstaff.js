@@ -1,65 +1,47 @@
-angular.module('madLibs', [])
-  .controller('InputCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
-    $scope.data = {};
-    $scope.data.genderOptions = ['male', 'female'];
-    $scope.data.gender = 'male';
+angular.module('waitstaff', [])
+  .controller('MainCtrl', ['$scope', function($scope){
+    $scope.data = {
+      customerSubtotal: 0,
+      customerTip: 0,
+      mealCount: 0,
+      avgTip: 0,
+      myTipTotal: 0,
+      tipHistory: []
+    };
 
-    $scope.data.inputs = [
-      {attr: 'name', value: '', placeholder: 'Name'},
-      {attr: 'dirtyTask', value: '', placeholder: 'dirty task'},
-      {attr: 'obnoxiousCelebrity', value: '', placeholder: 'Obnoxious Celebrity'},
-      {attr: 'jobTitle', value: null, placeholder: 'Job Title'},
-      {attr: 'celebrity', value: null, placeholder: 'Celebrity'},
-      {attr: 'hugeNumber', value: null, placeholder: 'huge number', type: 'number', errorMessage: 'Enter a valid number'},
-      {attr: 'tediousTask', value: null, placeholder: 'tedious task'},
-      {attr: 'uselessSkill', value: null, placeholder: 'useless skill'},
-      {attr: 'adjective', value: null, placeholder: 'adjective'}
-    ];
+    var customerTotal = function(){
+      return $scope.data.customerSubtotal + $scope.data.customerTip;
+    };
 
-    $scope.generateMadLib = function(){
-      if($scope.myForm.$valid){
-        $scope.hideInputs = true;
-        $rootScope.$broadcast('showMadlib', dataObject());
+    var avgTip = function(){
+      return $scope.data.myTipTotal / $scope.data.tipHistory.length;
+    };
+
+    var customerSubtotal = function(){
+      var subTot = parseFloat($scope.data.baseMealPrice);
+      subTot = subTot + subTot * $scope.data.taxRate / 100; 
+      return subTot;
+    };
+
+    var myTipTotal = function(){
+      var total = 0;
+      for(var i=0, l=$scope.data.tipHistory.length; i<l; i++){
+        total += $scope.data.tipHistory[i];
+      }
+      return total;
+    };
+
+
+    $scope.wsFormSubmit = function(){
+      if($scope.inputForm.$valid){
+        $scope.data.customerSubtotal = customerSubtotal();
+        $scope.data.customerTotal = customerTotal();
+        $scope.data.customerTip = $scope.data.tipPercent / 100 * $scope.data.customerSubtotal;
+        $scope.data.customerTotal = customerTotal();
+        $scope.data.tipHistory.push($scope.data.customerTip)
+        $scope.data.myTipTotal = myTipTotal();
+        $scope.data.avgTip = avgTip();
       }
     };
 
-    var dataObject = function(){
-      var dataObject = {gender: $scope.data.gender};
-      for(var i=0, length=$scope.data.inputs.length; i<length; i++){
-        dataObject[$scope.data.inputs[i]['attr']] = $scope.data.inputs[i]['value'];
-      }
-      return dataObject;
-    }
-
-    $scope.$on('startOver', function(event){
-      $scope.submitted = false;
-      $scope.data.gender = 'male';
-      for(var i=0, length=$scope.data.inputs.length; i<length; i++){
-        $scope.data.inputs[i].value = null;
-      }
-      $scope.hideInputs = false;
-    });
-  }])
-
-  .controller('MadlibCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
-    $scope.data = {};
-
-    $scope.$on('showMadlib', function(event, data){
-      $scope.data = data;
-      $scope.showMadlib = true;
-    });
-
-    var conversions = {'he': 'she', 'him': 'her', 'his': 'her'};
-    $scope.genderize = function(pronoun){
-      if ($scope.data.gender === 'male'){
-        return pronoun;
-      } else {
-        return conversions[pronoun];
-      }
-    };
-
-    $scope.startOver = function(){
-      $scope.showMadlib = false;
-      $rootScope.$broadcast('startOver');
-    };
   }]);
