@@ -1,0 +1,20 @@
+<main>
+  <h2>My Earnings Info</h2>
+  <table>
+    <tr>
+      <th>Tip Total</th>
+      <td>{{data.myTipTotal() | currency}}</td>
+    </tr>
+    <tr>
+      <th>Meal Count</th>
+      <td>{{data.tipHistory.length}}</td>
+    </tr>
+    <tr>
+      <th>Avg Tip Per Meal</th>
+      <td>{{data.avgTip() | currency}}</td>
+    </tr>
+  </table>
+  <div class="reset">
+    <button class="reset" ng-click="reset()">Reset</button>
+  </div>
+</main>

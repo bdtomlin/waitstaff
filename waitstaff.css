@@ -3,6 +3,11 @@ body {
   font-size: 16px;
 }
 
+nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .clearfix:before,
 .clearfix:after {
   content: " ";
@@ -40,12 +45,10 @@ input.error {
 
 .container {
   margin: auto;
-  width: 960px;
+  width: 560px;
 }
 
 main {
-  float: left;
-  width: 65%;
   border: 2px solid #ccc;
   border-radius: 5px;
 }
@@ -67,33 +70,26 @@ main form section.buttons {
 }
 
 aside {
-  float: right;
-  width: 30%;
-}
-
-aside>section{
+  margin-top: 20px;
   border: 2px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 1.5em;
-  padding-bottom: 1.5em;
-  text-align: center;
 }
 
-aside table{
-  margin: auto;
+table{
+  margin: 0 auto 20px;
   border-collapse: collapse;
 }
 
-aside table th, aside table td{
+table th, table td{
   padding: 5px;
   text-align: right;
 }
 
-aside table td{
+table td{
   font-family: monospace;
 }
 
-aside table tr.total th, aside table tr.total td{
+table tr.total th, table tr.total td{
   border-top: 1px solid black;
 }
 
@@ -107,6 +103,6 @@ h2 {
 }
 
 .reset{
-  clear: both;
-  float: right;
+  margin: 0 0 10px;
+  text-align: center;
 }
