@@ -1,4 +1,4 @@
-angular.module('waitstaff', ['ngRoute'])
+angular.module('waitstaff', ['ngRoute', 'ngAnimate'])
   .controller('HomeCtrl', function($scope){
   })
   .controller('NewMealCtrl', function($scope, WaitstaffData){

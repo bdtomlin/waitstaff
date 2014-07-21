@@ -5,7 +5,7 @@
   <title>Waitstaff Calculator</title>
   <link rel="stylesheet" href="./waitstaff.css">
 </head>
-<body>
+<body data-ng-class="{loading: isLoading}">
   <header class="clearfix">
     <h1>Waitstaff Calculator</h1>
   </header>
@@ -14,10 +14,13 @@
     <a href="#/new-meal">New Meal</a> |
     <a href="#/my-earnings">My Earnings</a>
   </nav>
-  <div class="container" ng-view></div>
+  <div class="container">
+    <div class="animate-view" ng-view></div>
+  </div>
 
   <script src="./bower_components/angular/angular.min.js" type="text/javascript"></script>
   <script src="./bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+  <script src="./bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
   <script src="./waitstaff.js" type="text/javascript"></script>
   <script src="./waitstaff-data.js" type="text/javascript"></script>
   <script src="./waitstaff-routes.js" type="text/javascript"></script>
